@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { h, useSlots, ref } from 'vue'
 import { Ref } from 'vue' // Type declarations
+import { makeid } from '../utils';
 
 const props = defineProps({
     element: {
@@ -10,26 +11,24 @@ const props = defineProps({
 
     data: {
         type: Object,
-        default: () => { }
+        required: true
+    },
+
+    prop: {
+        type: String,
+        required: true
     }
 })
 
-const makeid = (len: number) => {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < len; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
+const emits = defineEmits(["internal-drag-start"])
 const onDragStart = (ev: any) => {
     isBeingDragged.value = true;
     let res = {
         data: props.data,
         el: id
     }
+    let prop = props.data[props.prop]
+    emits("internal-drag-start", prop)
     ev.dataTransfer.setData("dragged", JSON.stringify(res));
 }
 
@@ -50,5 +49,5 @@ const draggable = () => {
 </script>
 
 <template>
-    <draggable />
+    <draggable :data="props.data" :prop="props.prop"/>
 </template>
