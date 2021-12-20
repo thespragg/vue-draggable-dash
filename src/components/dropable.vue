@@ -9,7 +9,7 @@ const props = defineProps({
 })
 
 const slots = useSlots();
-const dropcontainer = ref(null);
+const dropcontainer : any = ref(null);
 const dropable = () => {
     let el = h(props.element, {
         ref: dropcontainer,
