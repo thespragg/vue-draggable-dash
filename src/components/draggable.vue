@@ -16,7 +16,8 @@ const props = defineProps({
 
     prop: {
         type: String,
-        required: true
+        required: false,
+        default: () => "key"
     }
 })
 

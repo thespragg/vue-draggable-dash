@@ -1,17 +1,17 @@
 <template>
   <dropable class="container">
-    <draggable prop="key" class="draggable" :data="{ key: '1' }">
+    <draggable class="draggable" :data="{ key: '1' }">
       <p>1.</p>
     </draggable>
-    <draggable prop="key" class="draggable" :data="{ key: '2' }">
+    <draggable class="draggable" :data="{ key: '2' }">
       <p>2.</p>
     </draggable>
   </dropable>
   <dropable class="container">
-    <draggable prop="key" class="draggable" :data="{ key: '3' }">
+    <draggable class="draggable" :data="{ key: '3' }">
       <p>3.</p>
     </draggable>
-    <draggable prop="key" class="draggable" :data="{ key: '4' }">
+    <draggable class="draggable" :data="{ key: '4' }">
       <p>4.</p>
     </draggable>
   </dropable>
