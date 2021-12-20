@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { h, useSlots, ref, defineEmits } from 'vue'
+import { h, useSlots, ref } from 'vue'
 import { Ref } from 'vue' // Type declarations
-import DragEvent from '@/utils/VueDragEvent'
 
 const props = defineProps({
     element: {
@@ -9,31 +8,43 @@ const props = defineProps({
         default: () => "div"
     },
 
-    data:{
+    data: {
         type: Object,
-        default: () => {}
+        default: () => { }
     }
 })
 
-const isBeingDragged: Ref<Boolean> = ref(false);
+const makeid = (len: number) => {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < len; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
+}
 
+const isBeingDragged: Ref<Boolean> = ref(false);
 const slots = useSlots();
-const emit = defineEmits(["drag-start", "drag-end", "drag-event"])
+const id = makeid(10)
 
 const draggable = () => {
     let el = h(props.element, {
         draggable: true,
-        class: [isBeingDragged.value ? 'dragging' : '']
+        class: [isBeingDragged.value ? 'dragging' : ''],
+        id: id
     }, slots)
-    el.props!.ondragstart = () => {
+    el.props!.ondragstart = (ev: any) => {
         isBeingDragged.value = true;
-        emit("drag-start", el)
-        emit("drag-event", new DragEvent("start", props.data, el))
+        let res = {
+            data: props.data,
+            el: id
+        }
+        ev.dataTransfer.setData("dragged", JSON.stringify(res));
     };
-    el.props!.ondragend = () => {
+    el.props!.ondragend = (ev: any) => {
         isBeingDragged.value = false;
-        emit("drag-end", el)
-        emit("drag-event", new DragEvent("stop", props.data, el))
     };
     return el;
 }
