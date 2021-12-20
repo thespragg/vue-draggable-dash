@@ -19,10 +19,18 @@ const makeid = (len: number) => {
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < len; i++) {
-        result += characters.charAt(Math.floor(Math.random() *
-            charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+const onDragStart = (ev: any) => {
+    isBeingDragged.value = true;
+    let res = {
+        data: props.data,
+        el: id
+    }
+    ev.dataTransfer.setData("dragged", JSON.stringify(res));
 }
 
 const isBeingDragged: Ref<Boolean> = ref(false);
@@ -33,19 +41,10 @@ const draggable = () => {
     let el = h(props.element, {
         draggable: true,
         class: [isBeingDragged.value ? 'dragging' : ''],
+        ondragstart: onDragStart,
+        ondragend: () => isBeingDragged.value = false,
         id: id
     }, slots)
-    el.props!.ondragstart = (ev: any) => {
-        isBeingDragged.value = true;
-        let res = {
-            data: props.data,
-            el: id
-        }
-        ev.dataTransfer.setData("dragged", JSON.stringify(res));
-    };
-    el.props!.ondragend = (ev: any) => {
-        isBeingDragged.value = false;
-    };
     return el;
 }
 </script>
