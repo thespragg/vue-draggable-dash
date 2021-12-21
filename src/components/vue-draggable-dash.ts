@@ -24,6 +24,12 @@ export const dragable = {
             required: false,
             default: () => []
         },
+    
+        locked: {
+            type: Boolean,
+            required: false,
+            default: () => false
+        }
     },
 
     emits: ["drag-start", "drag-end"],
@@ -60,11 +66,10 @@ export const dragable = {
 
         const slots = useSlots();
         const id = makeid(10)
-
         return () => h(props.element, {
             draggable: true,
             class: [isBeingDragged.value ? 'dragging' : ''],
-            ondragstart: (ev: any) => onDragStart(ev),
+            ondragstart: (ev: any) => !props.locked ? onDragStart(ev) :  ev.preventDefault(),
             ondragend: (ev: any) => onDragEnd(ev),
             id: id
         }, slots);
