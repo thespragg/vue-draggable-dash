@@ -22,17 +22,18 @@ export default {
 
         const isDraggableComponent = (el: any) => {
             try {
-                if (!el || !el.type || !el.type.emits || el.type.emits.length == 0) return false;
-                if (el.type.emits.includes("internal-drag-start")) return true;
+                if (!el || !el.type || !el.type.name) return false;
+                if (el.type.name === "draggable") return true;
                 return false;
             } catch {
                 return false;
             }
         }
 
+        const slots = useSlots();
         const getChildren = () => {
-            if (!context.slots.default) return;
-            let els = context.slots.default();
+            if (!slots.default) return;
+            let els = slots.default();
             for (let i = 0; i < els.length; i++) {
                 if (isDraggableComponent(els[i])) {
                     if (!els[i].props) els[i].props = {}
