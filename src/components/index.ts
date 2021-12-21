@@ -1,4 +1,4 @@
-import Draggable from "./draggable.vue";
-import Dropable from "./dropable.vue"
+import Draggable from "./draggable.js";
+import Dropable from "./dropable.js"
 
 export { Draggable, Dropable };
