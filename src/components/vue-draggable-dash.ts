@@ -1,4 +1,4 @@
-import { h, useSlots, ref, watch } from 'vue'
+import { h, useSlots, ref } from 'vue'
 import { Ref } from 'vue' // Type declarations
 import { makeid, isDraggableComponent } from '../utils';
 import { getCurrentInstance } from "vue";
@@ -19,10 +19,10 @@ export const dragable = {
             required: true
         },
 
-        prop: {
-            type: String,
+        groups: {
+            type: Array,
             required: false,
-            default: () => "key"
+            default: () => []
         },
     },
 
@@ -36,6 +36,7 @@ export const dragable = {
             isBeingDragged.value = true;
             let data = {
                 data: props.data,
+                groups: props.groups,
                 el: id
             }
             currentDrag.value = props.data;
@@ -49,7 +50,7 @@ export const dragable = {
                     let exposed = instance?.parent?.exposed;
                     if (!exposed) return;
                     exposed.items.value.push(currentDrag.value);
-                    
+
                 }
                 finally {
                     currentDrag.value = null;
@@ -79,6 +80,12 @@ export const dropable = {
             required: false,
             default: () => "div"
         },
+
+        groups: {
+            type: Array,
+            required: false,
+            default: () => []
+        },
     },
 
     setup: (props: any, context: any) => {
@@ -92,6 +99,8 @@ export const dropable = {
         const onDrop = (ev: any) => {
             ev.preventDefault();
             let item = JSON.parse(ev.dataTransfer.getData("dragged"))
+            if (!item.groups || props.groups.filter((value: String) => item.groups.includes(value)).length == 0) return;
+
             var dragged = document.getElementById(item.el)
             dropcontainer.value.appendChild(dragged)
             items.value.push(currentDrag.value);
@@ -117,11 +126,14 @@ export const dropable = {
             return els;
         }
 
-        return () => h(props.element, {
-            ref: dropcontainer,
-            ondrop: (ev: any) => onDrop(ev),
-            ondragover: (e: any) => e.preventDefault(),
-            ondragleave: () => onDragLeave()
-        }, getChildren())
+        return () => {
+            items.value.length = 0;
+            return h(props.element, {
+                ref: dropcontainer,
+                ondrop: (ev: any) => onDrop(ev),
+                ondragover: (e: any) => e.preventDefault(),
+                ondragleave: () => onDragLeave()
+            }, getChildren())
+        }
     }
 }
