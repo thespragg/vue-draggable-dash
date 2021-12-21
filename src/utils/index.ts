@@ -7,3 +7,12 @@ export const makeid = (len: number) => {
     }
     return result;
 }
+
+export const isDraggableComponent = (el: any) => {
+    try {
+        if (el.type.name === "dragable") return true;
+        return false;
+    } catch {
+        return false;
+    }
+}
