@@ -1,10 +1,12 @@
 {
   "name": "vue-draggable-dash",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "node scripts/pages-deploy.js"
   },
   "dependencies": {
     "vue": "^3.2.25"
