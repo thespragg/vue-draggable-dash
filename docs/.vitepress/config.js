@@ -31,5 +31,6 @@ module.exports = {
 function getComponents() {
   return [
     { text: 'Dragable', link: '/pages/dragable/dragable' },
+    { text: 'Dropable', link: '/pages/dropable/dropable' },
   ]
 }
