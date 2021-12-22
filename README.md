@@ -2,6 +2,8 @@
 
 A set of drag/drop components to cover a wide variety of situations.
 
+Documentation and demos can be found at: https://thespragg.github.io/vue-draggable-dash/
+
 ## Components
 ### Draggable
 ### Dropable
