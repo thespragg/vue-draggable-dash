@@ -16,7 +16,8 @@ export const dragable = {
 
         data: {
             type: Object,
-            required: true
+            required: false,
+            default: () => null
         },
 
         groups: {
@@ -29,6 +30,13 @@ export const dragable = {
             type: Boolean,
             required: false,
             default: () => false
+        },
+
+        mode: {
+            type: String,
+            required: false,
+            default: () => "move",
+            validator: (value : string) => ['copy', 'move'].includes(value)
         }
     },
 
@@ -43,6 +51,7 @@ export const dragable = {
             let data = {
                 data: props.data,
                 groups: props.groups,
+                mode: props.mode,
                 el: id
             }
             currentDrag.value = props.data;
@@ -69,6 +78,7 @@ export const dragable = {
         return () => h(props.element, {
             draggable: true,
             class: [isBeingDragged.value ? 'dragging' : ''],
+            style: [{ cursor: 'grab' }],
             ondragstart: (ev: any) => !props.locked ? onDragStart(ev) :  ev.preventDefault(),
             ondragend: (ev: any) => onDragEnd(ev),
             id: id
@@ -104,10 +114,11 @@ export const dropable = {
         const onDrop = (ev: any) => {
             ev.preventDefault();
             let item = JSON.parse(ev.dataTransfer.getData("dragged"))
-            if (!item.groups || props.groups.filter((value: String) => item.groups.includes(value)).length == 0) return;
+            if (item.groups.length != 0 && props.groups.filter((value: String) => item.groups.includes(value)).length == 0) return;
 
             var dragged = document.getElementById(item.el)
-            dropcontainer.value.appendChild(dragged)
+            if(item.mode == "move") dropcontainer.value.appendChild(dragged)
+            if(item.mode == "copy") dropcontainer.value.appendChild(dragged?.cloneNode(true))
             items.value.push(currentDrag.value);
             currentDrag.value = null;
         }
