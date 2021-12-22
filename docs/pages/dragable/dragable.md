@@ -1,25 +1,23 @@
 # Dragable
 
-The button component is a simple customizable button.
-
-| Prop       | Description               | Accepted Values                 | Default     |
-| :--------- | :------------------------ | :------------------------------ | :---------- |
-| `groups`   | Accepted drop groups      | -                               | `[]`        |
-
-| Event   | Description               | Parameters    |
-| :------ | :------------------------ | :------------ |
-| `drop`  | Triggered on drop         | `$dropEvent`  |
+| Prop       | Description                                        | Accepted Values                 | Default     |
+| :--------- | :------------------------------------------------- | :------------------------------ | :---------- |
+| `element`  | What HTML element the dragable should be           | -                               | `div`       |
+| `data`     | Object to be passed with the drag/drop operation   | -                               | `null`      |
+| `groups`   | Accepted drop groups                               | -                               | `[]`        |
 
 ```vue
-<div style="margin-bottom: 16px">
-  <div style="margin-bottom: 16px">
+  <div>
     <dragable>
-      <p>Hi! I'm dragable</p>
+      <p>Hi! I'm a dragable component</p>
     </dragable>
   </div>
-</div>
 ```
-<DragableExample />
+
+## Example
+
+<span style="color:red;">NOTE: Dragable component has no default styling, styles added for documentation purposes.</span>
+<DragableExample style="margin-top:20px"/>
 
 <script setup>
 import DragableExample from './DragableExample.vue'
