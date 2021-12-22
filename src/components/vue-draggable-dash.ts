@@ -1,6 +1,6 @@
 import { h, useSlots, ref } from 'vue'
 import { Ref } from 'vue' // Type declarations
-import { makeid, isDraggableComponent } from '../utils';
+import { makeid, isDraggableComponent } from '../../Legacy/src/utils';
 import { getCurrentInstance } from "vue";
 
 let currentDrag: any = ref(null);
