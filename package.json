@@ -1,20 +1,44 @@
 {
   "name": "vue-draggable-dash",
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "deploy": "node scripts/pages-deploy.js"
+  "version": "0.0.1",
+  "description": "Lightweight, extensible drag and drop components",
+  "repository": "https://github.com/thespragg/vue-draggable-dash.git",
+  "author": "Alistair Spragg <alistair.spragg@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vue-draggable-dash.umd.js",
+  "module": "./dist/vue-draggable-dash.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-draggable-dash.es.js",
+      "require": "./dist/vue-draggable-dash.umd.js"
+    }
   },
-  "dependencies": {
-    "vue": "^3.2.25"
+  "unpkg": "./dist/vue-draggable-dash.umd.js",
+  "jsdelivr": "./dist/vue-draggable-dash.umd.js",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "serve": "vitepress serve docs",
+    "build:library": "vite build",
+    "publish:library": "npm publish --access public",
+    "publish:docs": "node deploy-docs.js",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "format": "prettier .  --write"
+  },
+  "peerDependencies": {
+    "vue": "^3.1.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.0.0",
-    "typescript": "^4.4.4",
-    "vite": "^2.7.2",
-    "vue-tsc": "^0.29.8"
+    "@vitejs/plugin-vue": "^1.2.5",
+    "@vue/compiler-sfc": "^3.1.5",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-vue": "^7.14.0",
+    "prettier": "^2.3.2",
+    "vite": "^2.4.3",
+    "vitepress": "^0.20.9"
   }
 }
