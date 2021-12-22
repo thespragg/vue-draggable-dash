@@ -6,8 +6,7 @@ Documentation and demos can be found at: https://thespragg.github.io/vue-draggab
 
 ## Get Started
 
-To install and use this library use:
-
+Install via NPM:
 `npm i vue-draggable-dash`
 
 ## Components
