@@ -1,23 +1,22 @@
 /* eslint-disable no-console */
-import { execa } from "execa";
-import { existsSync } from "fs";
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 (async () => {
   try {
-    await execa("git", ["checkout", "--orphan", "gh-pages"]);
-    // eslint-disable-next-line no-console
-    console.log("Building started...");
-    await execa("npm", ["run", "build"]);
-    // Understand if it's dist or build folder
+    await exec("git checkout --orphan gh-pages");
+    console.log("Checked out gh-pages")
+    await exec("npm run build");
+    console.log("Built docs")
     const folderName = existsSync("docs/.vitepress/dist") ? "docs/.vitepress/dist" : "build";
-    await execa("git", ["--work-tree", folderName, "add", "--all"]);
-    await execa("git", ["--work-tree", folderName, "commit", "-m", "gh-pages"]);
-    console.log("Pushing to gh-pages...");
-    await execa("git", ["push", "origin", "HEAD:gh-pages", "--force"]);
-    await execa("rm", ["-r", folderName]);
-    await execa("git", ["checkout", "-f", "main"]);
-    await execa("git", ["branch", "-D", "gh-pages"]);
-    console.log("Successfully deployed, check your settings");
+    await exec(`git --work-tree ${folderName} add --all`);
+    await exec(`git --work-tree ${folderName} commit -m gh-pages`);
+    await exec(`git push origin HEAD:gh-pages --force`);
+    console.log("Docs built, tidying up")
+    await exec(`rm -r ${folderName}`);
+    await exec("git checkout -f main");
+    await exec("git branch -D gh-pages");
+    console.log("Doc publish complete")
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e.message);
