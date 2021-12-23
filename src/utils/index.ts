@@ -1,3 +1,5 @@
+import { ref, Ref } from 'vue'
+
 export const makeid = (len: number) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,3 +18,5 @@ export const isDraggableComponent = (el: any) => {
         return false;
     }
 }
+
+export const currentDrag : Ref<any> = ref(null);
