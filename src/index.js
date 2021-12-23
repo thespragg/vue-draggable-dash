@@ -1,1 +1,4 @@
-export { dragable as Dragable, dropable as Dropable } from './components/vue-draggable-dash'
+import Dragable from './components/dragable'
+import Dropable from './components/dropable'
+
+export { Dragable, Dropable }
