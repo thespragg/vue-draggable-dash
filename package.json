@@ -40,8 +40,5 @@
     "prettier": "^2.3.2",
     "vite": "^2.4.3",
     "vitepress": "^0.20.9"
-  },
-  "dependencies": {
-    "mitt": "^3.0.0"
   }
 }
