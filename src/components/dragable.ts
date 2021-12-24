@@ -1,6 +1,6 @@
 import { h, useSlots, ref } from 'vue'
 import { Ref } from 'vue' // Type declarations
-import { makeid, setDragData, currentDragData } from '../utils';
+import { makeid, api } from '../utils';
 import { getCurrentInstance } from "vue";
 
 import { DragData } from '../vue-draggable-dash.d.js';
@@ -54,21 +54,21 @@ export default {
                 elementId: id
             }
             
-            setDragData(props.data);
+            api.setDragData(props.data);
             ev.dataTransfer.setData("dragged", JSON.stringify(data));
         }
 
         const onDragEnd = (ev: any) => {
             isBeingDragged.value = false;
-            if (currentDragData != null) {
+            if (api.getDragData() != null) {
                 try {
                     let exposed = instance?.parent?.exposed;
                     if (!exposed || !Object.prototype.hasOwnProperty.call(exposed, "items")) return;
-                    exposed.items.value.push(currentDragData);
+                    exposed.items.value.push(api.getDragData());
 
                 }
                 finally {
-                    setDragData(null);
+                    api.setDragData(null);
                 }
             }
         }

@@ -1,6 +1,6 @@
 import { h, useSlots, ref } from 'vue'
 import { Ref } from 'vue' // Type declarations
-import { isDraggableComponent, setDragData, currentDragData } from '../utils';
+import { isDraggableComponent, api } from '../utils';
 
 export default {
     name: "dropable",
@@ -36,12 +36,12 @@ export default {
             if (item.mode == "move") dropcontainer.value.appendChild(dragged)
             if (item.mode == "copy") dropcontainer.value.appendChild(dragged?.cloneNode(true))
             
-            items.value.push(currentDragData);
-            setDragData(null);
+            items.value.push(api.getDragData());
+            api.setDragData(null);
         }
 
         const onDragLeave = () => {
-            var index = items.value.findIndex((x: any) => x.key == currentDragData.key)
+            var index = items.value.findIndex((x: any) => x.key == api.getDragData().key)
             if (index == -1) return;
             items.value.splice(index, 1);
         }

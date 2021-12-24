@@ -17,5 +17,18 @@ export const isDraggableComponent = (el: any) => {
     }
 }
 
-export let currentDragData : any= null;
-export const setDragData = (data : any) => currentDragData = data;
+export let currentDragData: any = null;
+export const setDragData = (data: any) => currentDragData = data;
+
+class stateApi {
+    currentDragObject: any;
+
+    constructor() {
+        this.currentDragObject = null;
+    }
+
+    setDragData = (data: any) => this.currentDragObject = data;
+    getDragData = () => this.currentDragObject;
+}
+
+export const api = new stateApi();
