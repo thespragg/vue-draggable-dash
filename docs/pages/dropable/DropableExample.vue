@@ -1,7 +1,7 @@
 <template>
     <div style="margin-bottom: 16px">
         <div>
-            <dragable mode="copy">
+            <dragable mode="copy" :data="{key:1}">
                 <p>Drag me into the container</p>
             </dragable>
         </div>

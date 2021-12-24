@@ -1,6 +1,6 @@
 <template>
   <div style="margin-bottom: 16px">
-    <dragable class="dragable">
+    <dragable class="dragable" :data="{key:1}">
       <p>Hi! I'm a dragable component</p>
     </dragable>
   </div>
