@@ -1,9 +1,9 @@
 import { h, useSlots, ref } from 'vue'
 import { Ref } from 'vue' // Type declarations
-import { makeid, currentDrag } from '../utils';
+import { makeid, setDragData, currentDragData } from '../utils';
 import { getCurrentInstance } from "vue";
 
-import { DragData, DragEvents, EventType } from '../vue-draggable-dash.d.js';
+import { DragData } from '../vue-draggable-dash.d.js';
 
 export default {
     name: "dragable",
@@ -16,8 +16,7 @@ export default {
 
         data: {
             type: Object,
-            required: false,
-            default: () => null
+            required: true
         },
 
         groups: {
@@ -48,32 +47,28 @@ export default {
 
         const onDragStart = (ev: any) => {
             isBeingDragged.value = true;
-            let data : DragData = {
+            let data: DragData = {
                 data: props.data,
                 groups: props.groups,
                 mode: props.mode,
                 elementId: id
             }
-            var dragEv: DragEvents = {
-                type: EventType.drag,
-                data: data
-            }
-
-            currentDrag.value = props.data;
+            
+            setDragData(props.data);
             ev.dataTransfer.setData("dragged", JSON.stringify(data));
         }
 
         const onDragEnd = (ev: any) => {
             isBeingDragged.value = false;
-            if (currentDrag.value != null) {
+            if (currentDragData != null) {
                 try {
                     let exposed = instance?.parent?.exposed;
-                    if (!exposed) return;
-                    exposed.items.value.push(currentDrag.value);
+                    if (!exposed || !Object.prototype.hasOwnProperty.call(exposed, "items")) return;
+                    exposed.items.value.push(currentDragData);
 
                 }
                 finally {
-                    currentDrag.value = null;
+                    setDragData(null);
                 }
             }
         }
